@@ -8,8 +8,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SuccessKillDAOTest {

@@ -10,20 +10,19 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SeckillDAOTest {
 
     @Resource
     private SeckillDAO seckillDAO;
+
     @Test
     public void reduceNumber() {
-        long id = 1000L;
+        Long id = 1000L;
         Date killTime = new Date();
-        int version = 0;
-        int updateCount = seckillDAO.reduceNumber(id, killTime, version);
+        System.out.println(killTime);
+        int updateCount = seckillDAO.reduceNumber(id, killTime);
         System.out.println(updateCount);
     }
 

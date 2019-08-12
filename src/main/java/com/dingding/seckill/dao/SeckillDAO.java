@@ -16,10 +16,9 @@ public interface SeckillDAO {
      * 减库存
      * @param seckillId
      * @param killTime
-     * @Param version
      * @return 如果受影响的行数 > 1, 表示更新记录行数
      */
-    int reduceNumber(@Param("seckillId") long seckillId, @Param("killTime") Date killTime, @Param("version") int version);
+    int reduceNumber(@Param("seckillId") Long seckillId, @Param("killTime") Date killTime);
 
     /**
      * 根据id查询秒杀对象
@@ -36,5 +35,4 @@ public interface SeckillDAO {
      */
     List<Seckill> queryAll(@Param("start") int start, @Param("size") int size);
 
-    Seckill selectAll(@Param("start") int start, @Param("size") int size);
 }

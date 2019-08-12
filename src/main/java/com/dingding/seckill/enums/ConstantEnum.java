@@ -1,6 +1,10 @@
 package com.dingding.seckill.enums;
 
 import java.io.Serializable;
+
+/**
+ * 常量枚举
+ */
 public enum ConstantEnum implements Serializable {
     /**
      * 发送中

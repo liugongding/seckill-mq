@@ -5,7 +5,6 @@ import com.dingding.seckill.dao.SuccessKillDAO;
 import com.dingding.seckill.dto.Exposer;
 import com.dingding.seckill.dto.SeckillExecution;
 import com.dingding.seckill.entity.Seckill;
-import com.dingding.seckill.entity.SuccessKilled;
 import com.dingding.seckill.entity.User;
 import com.dingding.seckill.enums.SeckillStateEnum;
 import com.dingding.seckill.exception.RepeatKillException;
@@ -18,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -46,7 +46,7 @@ public class SeckillServiceImpl implements SeckillService {
      /**
      * 盐值
      */
-    private final String slat = "dfa123EDdasSA,./";
+    private final String slat = "dfa123EDdasSA,.";
     /**
      * md5加密
      */
@@ -107,28 +107,26 @@ public class SeckillServiceImpl implements SeckillService {
      * @return
      */
     private String getMD5(long seckillId) {
-//        String base = seckillId + "/" + slat;
-//        md5 = DigestUtils.md5DigestAsHex(base.getBytes());
-        md5 = seckillId + "liugongding";
-        System.out.println(md5);
+        String base = seckillId + "/" + slat;
+        md5 = DigestUtils.md5DigestAsHex(base.getBytes());
+//        md5 = seckillId + base;
         logger.info(md5);
         return md5;
     }
 
     @Override
     @Transactional
-    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) throws SeckillException {
+    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) throws Exception {
         if (md5 == null || !md5.equals(getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
-
         try {
             readMqService.createSuccessKillMq(new User(seckillId, userPhone));
-            return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS, successKilled);
-        } catch (Exception e) {
-            e.printStackTrace();
+            // TODO 返回待更改
+            return new SeckillExecution(seckillId, SeckillStateEnum.SUCCESS,null);
+        } catch (SeckillCloseException | RepeatKillException e) {
+            throw e;
         }
-        return null;
 //        //执行秒杀逻辑：减库存+记录购买行为
 //        Date now = new Date();
 //        Seckill seckill = null;

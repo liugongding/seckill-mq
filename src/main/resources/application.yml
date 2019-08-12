@@ -58,16 +58,20 @@ spring:
     port: 5672
     username: guest
     password: guest
+    #消息发送至 exchange 才 callback
     publisher-confirms: true
+    #消息发送至 queue 失败才 callback
     publisher-returns: true
+    #消费消息手动删除
     listener:
-      simple:
+      direct:
         acknowledge-mode: manual
     template:
       mandatory: true
       #重新投递时间（分钟）
       receive-timeout: 1
     virtual-host: /
+
 
   jackson:
     date-format: yyyy-MM-dd HH:mm
@@ -93,6 +97,8 @@ mybatis:
     use-column-label: true
     # 开启驼峰命名转换，如：Table(create_time) -> Entity(createTime)。不需要我们关心怎么进行字段匹配，mybatis会自动识别`大写字母与下划线`
     map-underscore-to-camel-case: true
+
+
 
 ---
 spring:

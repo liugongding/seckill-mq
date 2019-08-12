@@ -2,6 +2,7 @@ package com.dingding.seckill.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * @author liudingding
@@ -11,19 +12,44 @@ import java.util.Date;
  * Version 1.0
  */
 @Data
-public class BrokerMessageLog {
+public class BrokerMessageLog implements Serializable {
 
+    /**
+     * 主键id
+     */
+    private Integer id;
+    /**
+     * 消息id
+     */
     private Long messageId;
 
+    /**
+     * 消息体
+     */
     private String message;
 
+    /**
+     * 重试次数
+     */
     private Integer tryCount;
 
+    /**
+     * 最终状态
+     */
     private String status;
 
+    /**
+     * 消息开始重试时间
+     */
     private Date nextRetry;
 
+    /**
+     * brokerLog创建时间
+     */
     private Date createTime;
 
+    /**
+     * brokerLog更新时间
+     */
     private Date updateTime;
 }
